@@ -1,43 +1,57 @@
-import { FetchActionInterface } from "./interface";
-import { ActionInterface } from "./fetch";
+const REQUEST = 'REQUEST';
+const SUCCESS = 'SUCCESS';
+const FAILURE = 'FAILURE';
 
-export const ActionType: FetchActionInterface = {
-  Name: "Forecasts:Action:Search-By-City-Name",
-  Doing: "Forecasts:Action:Search-By-City-Name:Doing",
-  Done: "Forecasts:Action:Search-By-City-Name:Done",
-  Fail: "Forecasts:Action:Search-By-City-Name:Fail",
-  Abort: "Forecasts:Action:Search-By-City-Name:Abort"
+interface FetchActionInterface {
+  REQUEST: string;
+  SUCCESS: string;
+  FAILURE: string;
+}
+const createFetchActionTypes = (base: string): FetchActionInterface => {
+  return [REQUEST, SUCCESS, FAILURE].reduce((acc: any, type: string) => {
+    acc[type] = `${base}_${type}`;
+    return acc;
+  }, {});
 };
 
-export const creator = {
-  doing: (payload: any, option: any): ActionInterface => {
-    return {
-      type: ActionType.Doing,
-      payload: payload,
-      option: option
-    };
-  },
-  done: (payload: any, option: any, result: any): ActionInterface => {
-    return {
-      type: ActionType.Done,
-      payload: payload,
-      option: option,
-      result: result
-    };
-  },
-  fail: (payload: any, option: any, error: any): ActionInterface => {
-    return {
-      type: ActionType.Fail,
-      payload: payload,
-      option: option,
-      error: error
-    };
-  },
-  abort: (payload: any, option: any, result: any): ActionInterface => {
-    return {
-      type: ActionType.Abort,
-      payload: payload,
-      option: option
-    };
-  }
+export const AT_SEARCH = createFetchActionTypes('SEARCH');
+
+interface FetchActionSuccessPayloadInterface {
+  response: { [key: string]: any };
+}
+interface FetchActionFailurePayloadInterface {
+  error: { [key: string]: any };
+}
+
+interface FetchActionPayloadInterface<P, FAP> {
+  type: string;
+  payload: P & FAP;
+}
+
+interface ActionCreatorInterface<P> {
+  request: (payload: P) => FetchActionPayloadInterface<P, any>;
+  success: (
+    payload: P & FetchActionSuccessPayloadInterface
+  ) => FetchActionPayloadInterface<P, FetchActionSuccessPayloadInterface>;
+  failure: (
+    payload: P & FetchActionFailurePayloadInterface
+  ) => FetchActionPayloadInterface<P, FetchActionFailurePayloadInterface>;
+}
+
+interface SearchRequestPayloadInterface {
+  cityName: string;
+}
+export const AC_SEARCH: ActionCreatorInterface<SearchRequestPayloadInterface> = {
+  request: payload => ({
+    type: AT_SEARCH[REQUEST],
+    payload,
+  }),
+  success: payload => ({
+    type: AT_SEARCH[SUCCESS],
+    payload,
+  }),
+  failure: payload => ({
+    type: AT_SEARCH[FAILURE],
+    payload,
+  }),
 };
