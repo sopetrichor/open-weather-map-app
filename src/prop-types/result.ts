@@ -1,24 +1,15 @@
-import { ReduxBase } from "./redux";
-import { CityWeatherInterface } from "../prop-types/city";
+import { ReduxBase } from './redux';
+import { City, CityInterface } from './city';
+import { Forecast, ForecastInterface } from './forecast';
+import { Weather, WeatherInterface } from './weather';
 
-export class Result extends ReduxBase implements CityWeatherInterface {
-  guid: string;
-  countryCode: string;
-  cityName: string;
-  weather: {
-    temperature: number;
-    maxTemperature: number;
-    minTemperature: number;
-  };
+export class Result extends ReduxBase implements WeatherInterface {
+  forecasts: Array<ForecastInterface>;
+  city: CityInterface;
+
   constructor() {
     super();
-    this.guid = "";
-    this.countryCode = "";
-    this.cityName = "";
-    this.weather = {
-      temperature: 0,
-      maxTemperature: 0,
-      minTemperature: 0
-    };
+    this.forecasts = [];
+    this.city = new City();
   }
 }

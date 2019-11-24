@@ -11,15 +11,16 @@ export interface ReduxBaseInterface {
 
 export const initialReduxState = (): ReduxStateInterface => {
   return {
-    state: "",
-    code: "",
-    message: "",
-    data: undefined
+    state: '',
+    code: '',
+    message: '',
+    data: undefined,
   };
 };
 
 export class ReduxBase implements ReduxBaseInterface {
   Redux: ReduxStateInterface;
+
   constructor() {
     this.Redux = initialReduxState();
   }
