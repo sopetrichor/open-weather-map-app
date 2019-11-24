@@ -1,45 +1,53 @@
-import { CityWeatherInterface } from "../prop-types/city";
-import { Result } from "../prop-types/result";
+import { City, CityInterface } from '../prop-types/city';
+import { Result } from '../prop-types/result';
+import { Forecast, ForecastInterface } from '../prop-types/forecast';
+import { Temperature, TemperatureInterface } from '../prop-types/temperature';
+import { Weather, WeatherInterface } from '../prop-types/weather';
 
-export const stateFromPayload = (
-  payload: any = {},
-  option: any = {},
-  state = new Result()
-) => {
-  const { list } = payload;
-  list.map((data: any) => {
-    setGuid(data, state);
-    setCountryCode(data, state);
-    setCityName(data, state);
-    setWeather(data, state);
+export const setCity = (payload: any = {}, option: any = {}, state = new City()): CityInterface => {
+  const { id, name, coord, country, population } = payload;
+
+  state.guid = id;
+  state.name = name;
+  state.coord.lon = coord.lon;
+  state.coord.lat = coord.lat;
+  state.country = country;
+  state.population = population;
+
+  return state;
+};
+export const setTemp = (payload: any = {}, option: any = {}, state = new Temperature()): TemperatureInterface => {
+  const { min, max, morn, night, eve } = payload;
+
+  state.min = min;
+  state.max = max;
+  state.morn = morn;
+  state.night = night;
+  state.eve = eve;
+
+  return state;
+};
+export const setForecasts = (payload: any = {}, option: any = {}, state = new Forecast()): Array<ForecastInterface> => {
+  return payload.map((data: any) => {
+    const { temp, weather, rain } = data;
+    const { main, description, icon } = weather[0];
+
+    state.rain = rain;
+    state.main = main;
+    state.description = description;
+    state.icon = icon;
+    setTemp(temp, {}, state.temp);
+
+    return state;
   });
-  return state;
 };
 
-export const setGuid = (payload: any = {}, state = new Result()) => {
-  const { id } = payload;
-  state.guid = String(id) || "";
-  return state;
-};
-export const setCountryCode = (payload: any = {}, state = new Result()) => {
-  const { sys } = payload;
-  const { country } = sys;
-  state.countryCode = String(country) || "";
-  return state;
-};
-export const setCityName = (payload: any = {}, state = new Result()) => {
-  const { name } = payload;
-  state.cityName = String(name) || "";
-  return state;
-};
-export const setWeather = (payload: any = {}, state = new Result()) => {
-  const { main } = payload;
-  const { temp, temp_max, temp_min } = main;
-  state.weather.temperature = temperatureConverter(parseFloat(temp)) || 0;
-  state.weather.maxTemperature =
-    temperatureConverter(parseFloat(temp_max)) || 0;
-  state.weather.minTemperature =
-    temperatureConverter(parseFloat(temp_min)) || 0;
+export const stateFromPayload = (payload: any = {}, option: any = {}, state = new Result()) => {
+  const { city, list } = payload;
+
+  state.city = setCity(city, {}, state.city);
+  state.forecasts = setForecasts(list, {});
+
   return state;
 };
 
