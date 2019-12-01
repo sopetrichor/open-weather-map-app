@@ -1,20 +1,22 @@
-import { takeLatest, put, call, fork, select } from 'redux-saga/effects';
+import { take, takeLatest, put, call, fork, select } from 'redux-saga/effects';
+
 import { AT_SEARCH, AC_SEARCH } from '../actions';
-import { fetchByCityName } from '../services';
+import { api } from '../services';
+import { fetchEntity } from './index';
+
+export const fetchByCityName = fetchEntity.bind(null, AC_SEARCH, api.fetchByCityName);
 
 export const watcher = function*() {
-  yield takeLatest(AT_SEARCH.REQUEST, worker);
+  const { type, payload } = yield take(AT_SEARCH.REQUEST);
+  yield fork(worker, payload);
 };
 
-const worker = function*(action: any) {
-  const { type, payload, option } = action;
+export interface workerPayloadInterface {
+  cityName: string;
+}
+const worker = function*(payload: workerPayloadInterface) {
   const { cityName } = payload;
-  const response = yield call(fetchByCityName, cityName);
-  const { cod } = response;
-  console.log(`### response`, response);
-  if (cod === '200') {
-    yield put(AC_SEARCH.success({ ...payload, response: response }));
-  } else {
-    yield put(AC_SEARCH.failure({ ...payload, error: response }));
+  if (cityName) {
+    yield call(fetchByCityName, payload);
   }
 };
