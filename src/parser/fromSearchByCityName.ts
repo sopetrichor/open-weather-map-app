@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 import { City, CityInterface } from '../prop-types/city';
 import { Result } from '../prop-types/result';
 import { Forecast, ForecastInterface } from '../prop-types/forecast';
@@ -27,11 +29,16 @@ export const setTemp = (payload: any = {}, option: any = {}, state = new Tempera
 
   return state;
 };
-export const setForecasts = (payload: any = {}, option: any = {}, state = new Forecast()): Array<ForecastInterface> => {
+export const setForecasts = (payload: any = {}, option: any = {}): Array<ForecastInterface> => {
   return payload.map((data: any) => {
-    const { temp, weather, rain } = data;
+    const state = new Forecast();
+    const { dt, temp, weather, rain } = data;
     const { main, description, icon } = weather[0];
 
+    state.date = moment
+      .unix(dt)
+      .utc()
+      .format('YYYY-MM-DD');
     state.rain = rain;
     state.main = main;
     state.description = description;
