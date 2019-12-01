@@ -1,14 +1,8 @@
-import React, {
-  useEffect,
-  useState,
-  useCallback,
-  useMemo,
-  useRef
-} from "react";
-import { useDispatch, useMappedState } from "redux-react-hook";
+import React, { useEffect, useState, useCallback, useMemo, useRef } from 'react';
+import { useDispatch, useMappedState } from 'redux-react-hook';
 
-import useSearch from "../../hooks/useSearch";
-import { SearchOperation, SearchResult } from "./component";
+import useSearch from '../../hooks/useSearch';
+import { SearchOperation, SearchResult } from './component';
 
 const SearchBarContainer: React.FC = (props: any) => {
   const [state, start, isDoing, isDone] = useSearch();

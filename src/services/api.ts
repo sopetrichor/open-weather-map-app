@@ -24,7 +24,10 @@ export const callApi = (endpoint: string) => {
         }
         return json;
       })
-      .then(response => ({ response }), error => ({ error: error.message || 'Something bad happened' }))
+      .then(
+        response => ({ response }),
+        error => ({ error: error.message || 'Something bad happened' })
+      )
   );
 };
 
