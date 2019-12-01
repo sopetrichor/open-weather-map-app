@@ -1,19 +1,8 @@
-import React, {
-  useEffect,
-  useState,
-  useCallback,
-  useMemo,
-  useRef,
-  Fragment
-} from "react";
-import styled, {
-  StyledComponent,
-  AnyStyledComponent,
-  StyledComponentBase,
-  StyledInterface
-} from "styled-components";
+import React, { useEffect, useState, useCallback, useMemo, useRef, Fragment } from 'react';
+import styled, { StyledComponent, AnyStyledComponent, StyledComponentBase, StyledInterface } from 'styled-components';
 
-import useSearch from "../../hooks/useSearch";
+import useSearch from '../../hooks/useSearch';
+import { ForecastInterface } from 'prop-types/forecast';
 
 const SC: { [key: string]: AnyStyledComponent } = {};
 SC.SearchResultWrapper = styled.div`
@@ -48,7 +37,7 @@ SC.Badge = styled.span`
 `;
 SC.TemperatureText = styled.span`
   &:after {
-    content: "\\2103";
+    content: '\\2103';
   }
 `;
 
@@ -56,22 +45,32 @@ const SearchResultContainer: React.FC = () => {
   const [state, start, isDoing, isDone] = useSearch();
 
   if (isDone) {
-    const { countryCode, cityName, weather } = state;
+    const { city, forecasts } = state;
+    const { name, country } = city;
     return (
       <SC.SearchResultWrapper>
         <ul>
           <li>
             <SC.Title>
-              {cityName}, {countryCode}
+              {name}, {country}
             </SC.Title>
           </li>
-          <li>
+          {forecasts.map((data: ForecastInterface, index: number) => {
+            return (
+              <li>
+                <label>
+                  {data.date}, {data.description}, {data.rain + '%'}
+                </label>
+              </li>
+            );
+          })}
+          {/* <li>
             <SC.Badge>
               <SC.TemperatureText>{weather.temperature}</SC.TemperatureText>
             </SC.Badge>
             <span>, temperature from {weather.minTemperature} to </span>
             <SC.TemperatureText>{weather.maxTemperature}</SC.TemperatureText>
-          </li>
+          </li> */}
         </ul>
       </SC.SearchResultWrapper>
     );
