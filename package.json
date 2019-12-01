@@ -6,7 +6,8 @@
   "scripts": {
     "build": "webpack --mode=production",
     "dev": "webpack-dev-server --mode=development --env.API_KEY=$API_KEY",
-    "test": "jest"
+    "test": "jest",
+    "prettier": "prettier --config ./.prettierrc --write './src/**/*'"
   },
   "repository": {
     "type": "git",
