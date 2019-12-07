@@ -6,17 +6,17 @@ import { fetchEntity } from './index';
 
 export const fetchByCityName = fetchEntity.bind(null, AC_SEARCH, api.fetchByCityName);
 
-export const watcher = function*() {
-  const { type, payload } = yield take(AT_SEARCH.REQUEST);
-  yield fork(worker, payload);
-};
-
 export interface workerPayloadInterface {
   cityName: string;
 }
-const worker = function*(payload: workerPayloadInterface) {
+export const worker = function*(payload: workerPayloadInterface) {
   const { cityName } = payload;
   if (cityName) {
     yield call(fetchByCityName, payload);
   }
+};
+
+export const watcher = function*() {
+  const { type, payload } = yield take(AT_SEARCH.REQUEST);
+  yield fork(worker, payload);
 };
