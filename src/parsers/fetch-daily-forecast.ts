@@ -1,10 +1,10 @@
 import moment from 'moment';
 
-import { City, CityInterface } from '../prop-types/city';
-import { Result } from '../prop-types/result';
-import { Forecast, ForecastInterface } from '../prop-types/forecast';
-import { Temperature, TemperatureInterface } from '../prop-types/temperature';
-import { Weather, WeatherInterface } from '../prop-types/weather';
+import { City, CityInterface } from '@prop-types/city';
+import { DailyForecast } from '@prop-types/daily-forecast';
+import { Forecast, ForecastInterface } from '@prop-types/forecast';
+import { Temperature, TemperatureInterface } from '@prop-types/temperature';
+import { Weather, WeatherInterface } from '@prop-types/weather';
 
 export const setCity = (payload: any = {}, option: any = {}, state = new City()): CityInterface => {
   const { id, name, coord, country, population } = payload;
@@ -49,7 +49,7 @@ export const setForecasts = (payload: any = {}, option: any = {}): Array<Forecas
   });
 };
 
-export const stateFromPayload = (payload: any = {}, option: any = {}, state = new Result()) => {
+export const stateFromPayload = (payload: any = {}, option: any = {}, state = new DailyForecast()) => {
   const { city, list } = payload;
 
   state.city = setCity(city, {}, state.city);

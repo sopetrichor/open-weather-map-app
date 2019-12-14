@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 
-import searchReducer from './search';
+import dailyForecastReducer from './daily-forecast';
 
 export default combineReducers({
-  search: searchReducer,
+  dailyForecast: dailyForecastReducer,
 });

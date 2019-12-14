@@ -14,7 +14,7 @@ const createFetchActionTypes = (base: string): FetchActionInterface => {
   }, {});
 };
 
-export const AT_SEARCH = createFetchActionTypes('SEARCH');
+export const AT_DAILY_FORECAST = createFetchActionTypes('DAILY_FORECAST');
 
 interface FetchActionSuccessPayloadInterface {
   response: { [key: string]: any };
@@ -38,20 +38,20 @@ interface ActionCreatorInterface<P> {
   ) => FetchActionPayloadInterface<P, FetchActionFailurePayloadInterface>;
 }
 
-interface SearchRequestPayloadInterface {
+interface ByCityNamePayloadInterface {
   cityName: string;
 }
-export const AC_SEARCH: ActionCreatorInterface<SearchRequestPayloadInterface> = {
+export const AC_DAILY_FORECAST: ActionCreatorInterface<ByCityNamePayloadInterface> = {
   request: payload => ({
-    type: AT_SEARCH[REQUEST],
+    type: AT_DAILY_FORECAST[REQUEST],
     payload,
   }),
   success: payload => ({
-    type: AT_SEARCH[SUCCESS],
+    type: AT_DAILY_FORECAST[SUCCESS],
     payload,
   }),
   failure: payload => ({
-    type: AT_SEARCH[FAILURE],
+    type: AT_DAILY_FORECAST[FAILURE],
     payload,
   }),
 };

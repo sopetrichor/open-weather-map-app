@@ -1,4 +1,4 @@
-import { workerPayloadInterface as searchWPI } from '../sagas/search';
+import { workerPayloadInterface as fetchDailyForecastWPI } from '@sagas/fetch-daily-forecast';
 
 const API_KEY = process.env.API_KEY || 'unkonwn_api_key';
 const API_QS_WITH_APPID = `&APPID=${API_KEY}`;
@@ -31,5 +31,5 @@ export const callApi = (endpoint: string) => {
   );
 };
 
-export const fetchByCityName = (payload: searchWPI) =>
+export const fetchDailyForecast = (payload: fetchDailyForecastWPI) =>
   callApi(`/forecast/daily?q=${payload.cityName}` + API_MODE + API_UNITS);

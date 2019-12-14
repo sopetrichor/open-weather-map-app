@@ -1,6 +1,6 @@
 import { takeLatest, put, call, fork, select } from 'redux-saga/effects';
 
-import { watcher as watchFetchByCityName } from './search';
+import { watcher as watchFetchDailyForecast } from './fetch-daily-forecast';
 
 export function* fetchEntity(entity: any, apiFn: any, payload: any) {
   const { response, error } = yield call(apiFn, payload);
@@ -12,5 +12,5 @@ export function* fetchEntity(entity: any, apiFn: any, payload: any) {
 }
 
 export default function* root() {
-  yield fork(watchFetchByCityName);
+  yield fork(watchFetchDailyForecast);
 }

@@ -1,5 +1,5 @@
-import { Result } from '../prop-types/result';
-import { setGuid, temperatureConverter } from './fromSearchByCityName';
+import { Result } from '../prop-types/daily-forecast';
+import { setGuid, temperatureConverter } from './fetch-daily-forecast';
 
 test('Set guid property with random number', () => {
   const data = { id: Math.round(Math.random() * 1000) };
