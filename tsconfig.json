@@ -5,7 +5,18 @@
     "noImplicitAny": true,
     "module": "commonjs",
     "target": "es2015",
-    "jsx": "react"
+    "jsx": "react",
+    "baseUrl": "./src",
+    "paths": {
+      "@actions/*": ["actions/*"],
+      "@components/*": ["components/*"],
+      "@hooks/*": ["hooks/*"],
+      "@parsers/*": ["parsers/*"],
+      "@prop-types/*": ["prop-types/*"],
+      "@sagas/*": ["sagas/*"],
+      "@reducers/*": ["reducers/*"],
+      "@services/*": ["services/*"]
+    }
   },
   "include": ["./src/**/*"]
 }
